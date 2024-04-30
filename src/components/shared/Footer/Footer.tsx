@@ -2,6 +2,9 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import facebookIcon from "@/assets/landing_page/facebook.png";
+import instagramIcon from "@/assets/landing_page/instagram.png";
+import linkedinIcon from "@/assets/landing_page/linkedin.png";
+import twitterIcon from "@/assets/landing_page/twitter.png";
 
 const Footer = () => {
   return (
@@ -38,9 +41,9 @@ const Footer = () => {
           py={3}
         >
           <Image src={facebookIcon} alt="facebook" width={30} height={30} />
-          <Image src={facebookIcon} alt="facebook" width={30} height={30} />
-          <Image src={facebookIcon} alt="facebook" width={30} height={30} />
-          <Image src={facebookIcon} alt="facebook" width={30} height={30} />
+          <Image src={instagramIcon} alt="instagram" width={30} height={30} />
+          <Image src={linkedinIcon} alt="linkedin" width={30} height={30} />
+          <Image src={twitterIcon} alt="twitter" width={30} height={30} />
         </Stack>
         <div className="border-b-[1px] border-dashed my-5"></div>
         <Stack
