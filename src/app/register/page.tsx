@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Box,
   Button,
@@ -10,8 +12,41 @@ import {
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { modifyPayload } from "@/utils/modifypayload";
+import { registerPatient } from "@/services/actions/registerPatient";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
+type Inputs = {
+  password: string;
+  patient: {
+    name: string;
+    email: string;
+    contactNumber: string;
+    address: string;
+  };
+};
 
 const RegisterPage = () => {
+  const router = useRouter();
+  const { register, handleSubmit } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = async (values) => {
+    const data = modifyPayload(values);
+    try {
+      const res = await registerPatient(data);
+      if (res?.success) {
+        toast.success(res.message);
+        router.push("/login");
+      } else {
+        throw new Error(res?.message);
+      }
+    } catch (error: any) {
+      console.log(error?.message);
+    }
+  };
+
   return (
     <Container>
       <Stack
@@ -47,7 +82,7 @@ const RegisterPage = () => {
             </Box>
           </Stack>
           <Box>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={3} my={1}>
                 <Grid item sm={12}>
                   <TextField
@@ -55,6 +90,7 @@ const RegisterPage = () => {
                     label={"Name"}
                     size="small"
                     fullWidth={true}
+                    {...register("patient.name")}
                   />
                 </Grid>
                 <Grid item sm={6}>
@@ -64,6 +100,7 @@ const RegisterPage = () => {
                     type="email"
                     size="small"
                     fullWidth={true}
+                    {...register("patient.email")}
                   />
                 </Grid>
                 <Grid item sm={6}>
@@ -73,6 +110,7 @@ const RegisterPage = () => {
                     type="password"
                     size="small"
                     fullWidth={true}
+                    {...register("password")}
                   />
                 </Grid>
                 <Grid item sm={6}>
@@ -82,6 +120,7 @@ const RegisterPage = () => {
                     type="tel"
                     size="small"
                     fullWidth={true}
+                    {...register("patient.contactNumber")}
                   />
                 </Grid>
                 <Grid item sm={6}>
@@ -90,10 +129,11 @@ const RegisterPage = () => {
                     label={"Address"}
                     size="small"
                     fullWidth={true}
+                    {...register("patient.address")}
                   />
                 </Grid>
               </Grid>
-              <Button fullWidth sx={{ my: 2 }}>
+              <Button type="submit" fullWidth sx={{ my: 2 }}>
                 Register
               </Button>
               <Typography component="p" fontWeight={300}>
