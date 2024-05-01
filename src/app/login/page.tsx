@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Box,
   Button,
@@ -10,8 +12,33 @@ import {
 import assets from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { loginUser } from "@/services/actions/loginUser";
+import { toast } from "sonner";
+
+type Inputs = {
+  email: string;
+  password: string;
+};
 
 const LoginPage = () => {
+  const { register, handleSubmit } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = async (values) => {
+    try {
+      const res = await loginUser(values);
+      if (res?.success) {
+        toast.success(res.message);
+        // router.push("/login");
+      } else {
+        throw new Error(res?.message);
+        toast.error(res?.message);
+      }
+    } catch (error: any) {
+      console.log(error?.message);
+    }
+  };
+
   return (
     <Container>
       <Stack
@@ -43,7 +70,7 @@ const LoginPage = () => {
             </Box>
           </Stack>
           <Box>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={3} my={1}>
                 <Grid item sm={6}>
                   <TextField
@@ -52,6 +79,7 @@ const LoginPage = () => {
                     type="email"
                     size="small"
                     fullWidth={true}
+                    {...register("email")}
                   />
                 </Grid>
                 <Grid item sm={6}>
@@ -61,17 +89,23 @@ const LoginPage = () => {
                     type="password"
                     size="small"
                     fullWidth={true}
+                    {...register("password")}
                   />
                 </Grid>
               </Grid>
-              <Typography mb={1} textAlign={"end"} component="p" fontWeight={300}>
+              <Typography
+                mb={1}
+                textAlign={"end"}
+                component="p"
+                fontWeight={300}
+              >
                 Forgot Password?
               </Typography>
-              <Button fullWidth sx={{ my: 2 }}>
+              <Button type="submit" fullWidth sx={{ my: 2 }}>
                 Login
               </Button>
               <Typography component="p" fontWeight={300}>
-              Don&apos;t have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link href="/register">
                   <Typography
                     component="span"
