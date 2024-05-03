@@ -19,3 +19,9 @@ export type TDoctor = {
   review: [];
   doctorSpecialties: [];
 };
+
+export type TMeta = {
+  page: number;
+  limit: number;
+  total: number;
+};
