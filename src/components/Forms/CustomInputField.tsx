@@ -21,7 +21,7 @@ const CustomInputField = ({
   fullWidth = false,
   variant,
   placeholder,
-  required = true,
+  required,
   sx,
 }: CustomInputFieldProps) => {
   const { control } = useFormContext();
@@ -30,7 +30,7 @@ const CustomInputField = ({
     <Controller
       control={control}
       name={name}
-      render={({ field }) => {
+      render={({ field, fieldState: { error } }) => {
         return (
           <TextField
             variant={variant}
@@ -42,6 +42,8 @@ const CustomInputField = ({
             required={required}
             {...field}
             sx={{ ...sx }}
+            error={!!error?.message}
+            helperText={error?.message}
           />
         );
       }}
