@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { SxProps, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 
 type CustomInputFieldProps = {
@@ -8,6 +8,9 @@ type CustomInputFieldProps = {
   size?: "small" | "medium";
   fullWidth?: boolean;
   variant: "outlined" | "filled" | "standard";
+  placeholder?: string;
+  required?: boolean;
+  sx?: SxProps;
 };
 
 const CustomInputField = ({
@@ -17,6 +20,9 @@ const CustomInputField = ({
   size = "small",
   fullWidth = false,
   variant,
+  placeholder,
+  required = true,
+  sx,
 }: CustomInputFieldProps) => {
   const { control } = useFormContext();
 
@@ -32,7 +38,10 @@ const CustomInputField = ({
             type={type}
             size={size}
             fullWidth={fullWidth}
+            placeholder={placeholder}
+            required={required}
             {...field}
+            sx={{ ...sx }}
           />
         );
       }}
