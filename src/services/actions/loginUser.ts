@@ -1,6 +1,8 @@
 "use server";
 
-export const loginUser = async (data: { email: string; password: string }) => {
+import { FieldValues } from "react-hook-form";
+
+export const loginUser = async (data: FieldValues) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/login`,
     {
