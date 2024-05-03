@@ -12,22 +12,18 @@ import {
 import assets from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { loginUser } from "@/services/actions/loginUser";
 import { toast } from "sonner";
 import { storeUserInfo } from "@/services/auth.services";
 import { useRouter } from "next/navigation";
-
-type Inputs = {
-  email: string;
-  password: string;
-};
+import CustomForm from "@/components/Forms/CustomForm";
+import { FieldValues } from "react-hook-form";
+import CustomInputField from "@/components/Forms/CustomInputField";
 
 const LoginPage = () => {
-  const { register, handleSubmit } = useForm<Inputs>();
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<Inputs> = async (values) => {
+  const handleLogin = async (values: FieldValues) => {
     try {
       const res = await loginUser(values);
       if (res?.success) {
@@ -73,26 +69,26 @@ const LoginPage = () => {
             </Box>
           </Stack>
           <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <CustomForm onSubmit={handleLogin}>
               <Grid container spacing={3} my={1}>
                 <Grid item sm={6}>
-                  <TextField
+                  <CustomInputField
                     variant="outlined"
                     label={"Email"}
                     type="email"
                     size="small"
                     fullWidth={true}
-                    {...register("email")}
+                    name="email"
                   />
                 </Grid>
                 <Grid item sm={6}>
-                  <TextField
+                  <CustomInputField
                     variant="outlined"
                     label={"Password"}
                     type="password"
                     size="small"
                     fullWidth={true}
-                    {...register("password")}
+                    name="password"
                   />
                 </Grid>
               </Grid>
@@ -119,7 +115,7 @@ const LoginPage = () => {
                   </Typography>
                 </Link>
               </Typography>
-            </form>
+            </CustomForm>
           </Box>
         </Box>
       </Stack>

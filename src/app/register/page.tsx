@@ -1,38 +1,21 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { modifyPayload } from "@/utils/modifypayload";
 import { registerPatient } from "@/services/actions/registerPatient";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
-type Inputs = {
-  password: string;
-  patient: {
-    name: string;
-    email: string;
-    contactNumber: string;
-    address: string;
-  };
-};
+import CustomForm from "@/components/Forms/CustomForm";
+import CustomInputField from "@/components/Forms/CustomInputField";
+import { FieldValues } from "react-hook-form";
 
 const RegisterPage = () => {
   const router = useRouter();
-  const { register, handleSubmit } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = async (values) => {
+  const handleRegistration = async (values: FieldValues) => {
     const data = modifyPayload(values);
     try {
       const res = await registerPatient(data);
@@ -82,54 +65,49 @@ const RegisterPage = () => {
             </Box>
           </Stack>
           <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <CustomForm onSubmit={handleRegistration}>
               <Grid container spacing={3} my={1}>
                 <Grid item sm={12}>
-                  <TextField
+                  <CustomInputField
                     variant="outlined"
                     label={"Name"}
-                    size="small"
                     fullWidth={true}
-                    {...register("patient.name")}
+                    name="patient.name"
                   />
                 </Grid>
                 <Grid item sm={6}>
-                  <TextField
+                  <CustomInputField
                     variant="outlined"
                     label={"Email"}
                     type="email"
-                    size="small"
                     fullWidth={true}
-                    {...register("patient.email")}
+                    name="patient.email"
                   />
                 </Grid>
                 <Grid item sm={6}>
-                  <TextField
+                  <CustomInputField
                     variant="outlined"
                     label={"Password"}
                     type="password"
-                    size="small"
                     fullWidth={true}
-                    {...register("password")}
+                    name="password"
                   />
                 </Grid>
                 <Grid item sm={6}>
-                  <TextField
+                  <CustomInputField
                     variant="outlined"
                     label={"Contact Number"}
                     type="tel"
-                    size="small"
                     fullWidth={true}
-                    {...register("patient.contactNumber")}
+                    name="patient.contactNumber"
                   />
                 </Grid>
                 <Grid item sm={6}>
-                  <TextField
+                  <CustomInputField
                     variant="outlined"
                     label={"Address"}
-                    size="small"
                     fullWidth={true}
-                    {...register("patient.address")}
+                    name="patient.address"
                   />
                 </Grid>
               </Grid>
@@ -148,7 +126,7 @@ const RegisterPage = () => {
                   </Typography>
                 </Link>
               </Typography>
-            </form>
+            </CustomForm>
           </Box>
         </Box>
       </Stack>
