@@ -19,6 +19,21 @@ import { useRouter } from "next/navigation";
 import CustomForm from "@/components/Forms/CustomForm";
 import { FieldValues } from "react-hook-form";
 import CustomInputField from "@/components/Forms/CustomInputField";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export const loginValidationSchema = z.object({
+  email: z
+    .string({
+      required_error: "Please enter your email",
+    })
+    .email("Please enter valid email"),
+  password: z
+    .string({
+      required_error: "Please enter your password",
+    })
+    .min(6, "Must be minimum 6 characters"),
+});
 
 const LoginPage = () => {
   const router = useRouter();
@@ -69,7 +84,14 @@ const LoginPage = () => {
             </Box>
           </Stack>
           <Box>
-            <CustomForm onSubmit={handleLogin}>
+            <CustomForm
+              resolver={zodResolver(loginValidationSchema)}
+              onSubmit={handleLogin}
+              defaultValues={{
+                email: "",
+                password: "",
+              }}
+            >
               <Grid container spacing={3} my={1}>
                 <Grid item sm={6}>
                   <CustomInputField
