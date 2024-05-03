@@ -11,6 +11,50 @@ import { useRouter } from "next/navigation";
 import CustomForm from "@/components/Forms/CustomForm";
 import CustomInputField from "@/components/Forms/CustomInputField";
 import { FieldValues } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const patientValidationSchema = z.object({
+  name: z
+    .string({
+      required_error: "Please enter your name",
+    })
+    .min(1, "Please enter your name"),
+  email: z
+    .string({
+      required_error: "Please enter your email",
+    })
+    .email("Please enter valid email"),
+  contactNumber: z
+    .string({
+      required_error: "Please enter your contact number",
+    })
+    .regex(/^\d{11}$/, "Please enter valid contact number"),
+  address: z
+    .string({
+      required_error: "Please enter your address",
+    })
+    .min(1, "Please enter your address"),
+});
+
+const registrationValidationSchema = z.object({
+  password: z
+    .string({
+      required_error: "Please enter your password",
+    })
+    .min(6, "Must be minimum 6 characters"),
+  patient: patientValidationSchema,
+});
+
+const defaultValues = {
+  password: "",
+  patient: {
+    name: "",
+    email: "",
+    contactNumber: "",
+    address: "",
+  },
+};
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -65,7 +109,11 @@ const RegisterPage = () => {
             </Box>
           </Stack>
           <Box>
-            <CustomForm onSubmit={handleRegistration}>
+            <CustomForm
+              resolver={zodResolver(registrationValidationSchema)}
+              onSubmit={handleRegistration}
+              defaultValues={defaultValues}
+            >
               <Grid container spacing={3} my={1}>
                 <Grid item sm={12}>
                   <CustomInputField
