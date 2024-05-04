@@ -1,3 +1,5 @@
+import { USER_ROLE } from "@/constants/role";
+
 export type TDoctor = {
   id: string;
   email: string;
@@ -25,3 +27,5 @@ export type TMeta = {
   limit: number;
   total: number;
 };
+
+export type TUserRole = keyof typeof USER_ROLE;
