@@ -6,6 +6,9 @@ import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import TryIcon from "@mui/icons-material/Try";
+import PaidIcon from "@mui/icons-material/Paid";
+import BookOnlineIcon from "@mui/icons-material/BookOnline";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
 export const generateDrawerItems = (role: TUserRole): DrawerItem[] => {
   const roleMenus: DrawerItem[] = [];
@@ -86,17 +89,17 @@ export const generateDrawerItems = (role: TUserRole): DrawerItem[] => {
         {
           title: "Appointments",
           path: `${role}/appointments`,
-          icon: DashboardIcon,
+          icon: BookOnlineIcon,
         },
         {
           title: "Prescriptions",
           path: `${role}/prescriptions`,
-          icon: DashboardIcon,
+          icon: PictureAsPdfIcon,
         },
         {
           title: "Payment History",
           path: `${role}/payment-history`,
-          icon: DashboardIcon,
+          icon: PaidIcon,
         }
       );
       break;
