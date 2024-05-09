@@ -3,8 +3,11 @@ import CustomInputField from "@/components/Forms/CustomInputField";
 import CustomSelectField from "@/components/Forms/CustomSelectField";
 import CustomFullScreenModal from "@/components/shared/Modal/CustomFullScreenModal";
 import { Gender } from "@/constants/gender";
-import { Grid } from "@mui/material";
+import { useCreateDoctorMutation } from "@/redux/api/doctorApi";
+import { modifyPayload } from "@/utils/modifypayload";
+import { Box, Button, Grid, Stack } from "@mui/material";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 type TProps = {
   open: boolean;
@@ -12,10 +15,21 @@ type TProps = {
 };
 
 const DoctorModal = ({ open, setOpen }: TProps) => {
+  const [createNewDocotr] = useCreateDoctorMutation();
   const handleFormSubmit = async (values: FieldValues) => {
+    values.doctor.experience = Number(values.doctor.experience);
+    values.doctor.apointmentFee = Number(values.doctor.apointmentFee);
+    const data = modifyPayload(values);
     try {
+      const res = await createNewDocotr(data).unwrap();
+
+      if (res?.id) {
+        toast.success("Doctor Created Successfully");
+        setOpen(false);
+      }
     } catch (error: any) {
       console.error(error);
+      toast.error(error?.message);
     }
   };
 
@@ -160,6 +174,15 @@ const DoctorModal = ({ open, setOpen }: TProps) => {
             />
           </Grid>
         </Grid>
+        <Stack
+          direction={"row"}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <Box>
+            <Button type="submit">Create New Docotr</Button>
+          </Box>
+        </Stack>
       </CustomForm>
     </CustomFullScreenModal>
   );
