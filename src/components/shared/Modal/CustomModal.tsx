@@ -13,10 +13,10 @@ type TProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
-  sx?: SxProps
+  sx?: SxProps;
 };
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
   },
@@ -25,8 +25,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const CustomModal = ({title="", open = false, setOpen, children, sx }: TProps) => {
-
+const CustomModal = ({
+  title = "",
+  open = false,
+  setOpen,
+  children,
+  sx,
+}: TProps) => {
   const handleClose = () => {
     setOpen(false);
   };
@@ -37,7 +42,7 @@ const CustomModal = ({title="", open = false, setOpen, children, sx }: TProps) =
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-        sx={{...sx}}
+        sx={{ ...sx }}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           {title}
@@ -54,9 +59,7 @@ const CustomModal = ({title="", open = false, setOpen, children, sx }: TProps) =
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers>
-          {children}
-        </DialogContent>
+        <DialogContent dividers>{children}</DialogContent>
       </BootstrapDialog>
     </React.Fragment>
   );
