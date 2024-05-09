@@ -15,9 +15,10 @@ const doctorApi = baseApi.injectEndpoints({
     }),
 
     getAllDoctors: builder.query({
-      query: (data) => ({
+      query: (args: Record<string, any>) => ({
         url: `/doctor`,
         method: "GET",
+        params: args,
       }),
       transformResponse: (response: TDoctor[], meta: TMeta) => {
         return {
