@@ -21,7 +21,7 @@ const scheduleApi = baseApi.injectEndpoints({
       }),
       transformResponse: (response: [], meta: TMeta) => {
         return {
-          doctors: response,
+          schedules: response,
           meta,
         };
       },
