@@ -11,6 +11,7 @@ import Logout from "@mui/icons-material/Logout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useRouter } from "next/navigation";
 import {removeFromLocalStorage} from "@/utils/local-storage";
+import {authKey} from "@/constants/authKey";
 
 const menuStyles = {
     paper: {
@@ -53,7 +54,7 @@ const AccountMenu = () => {
     };
     const handleLogout = () => {
         setAnchorEl(null);
-        removeFromLocalStorage("accessToken")
+        removeFromLocalStorage(authKey);
         router.push("/login");
     };
 
