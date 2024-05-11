@@ -1,6 +1,4 @@
-"use server";
-
-import { FieldValues } from "react-hook-form";
+import {FieldValues} from "react-hook-form";
 
 export const loginUser = async (data: FieldValues) => {
   const res = await fetch(
@@ -11,10 +9,9 @@ export const loginUser = async (data: FieldValues) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-      cache: "no-store",
+      credentials: "include"
     }
   );
 
-  const userInfo = await res.json();
-  return userInfo;
+  return await res.json();
 };
