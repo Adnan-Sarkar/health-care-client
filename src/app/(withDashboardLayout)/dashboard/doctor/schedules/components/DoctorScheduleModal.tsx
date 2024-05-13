@@ -2,10 +2,15 @@ import React, {useState} from "react";
 import CustomModal from "@/components/shared/Modal/CustomModal";
 import dayjs from "dayjs";
 import {useGetAllSchedulesQuery} from "@/redux/api/scheduleApi";
-import {Button, Stack} from "@mui/material";
+import {Stack} from "@mui/material";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DatePicker} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import DoctorMultipleScheduleSelectField
+    from "@/app/(withDashboardLayout)/dashboard/doctor/schedules/components/DoctorMultipleScheduleSelectField";
+import {LoadingButton} from "@mui/lab";
+import {useCreateDoctorScheduleMutation} from "@/redux/api/doctorScheduleApi";
+import {toast} from "sonner";
 
 
 type TProps = {
@@ -35,16 +40,19 @@ const DoctorScheduleModal = ({open, setOpen}: TProps) => {
             .toISOString();
     }
 
-    const { data } = useGetAllSchedulesQuery(query);
+    const {data} = useGetAllSchedulesQuery(query);
+    const [createSchedule, {isLoading}] = useCreateDoctorScheduleMutation();
     const schedules = data?.schedules;
-
-    console.log(schedules);
 
     const handleSubmit = async () => {
         try {
-
-        } catch (error) {
-            console.log(error);
+            const res = await createSchedule({scheduleIds: selectedScheduleIds}).unwrap();
+            if (res?.count > 0) {
+                toast.success("Doctor Schedule Created Successfully");
+                setOpen(false);
+            }
+        } catch (error: any) {
+            toast.error(error.message);
         }
     };
 
@@ -58,11 +66,21 @@ const DoctorScheduleModal = ({open, setOpen}: TProps) => {
                         onChange={(newValue) =>
                             setSelectedDate(dayjs(newValue).toISOString())
                         }
-                        sx={{ width: '100%' }}
+                        sx={{width: '100%'}}
                     />
                 </LocalizationProvider>
+                <DoctorMultipleScheduleSelectField schedules={schedules} selectedScheduleIds={selectedScheduleIds}
+                                                   setSelectedScheduleIds={setSelectedScheduleIds}/>
 
-                <Button onClick={handleSubmit}>Submit</Button>
+                <LoadingButton
+                    size="small"
+                    onClick={handleSubmit}
+                    loading={isLoading}
+                    loadingIndicator="Submitting..."
+                    variant="contained"
+                >
+                    <span>Submit</span>
+                </LoadingButton>
             </Stack>
         </CustomModal>
     );
