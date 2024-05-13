@@ -1,70 +1,81 @@
-import { USER_ROLE } from "@/constants/role";
-import { SvgIconTypeMap } from "@mui/material";
-import { OverridableComponent } from "@mui/material/OverridableComponent";
+import {USER_ROLE} from "@/constants/role";
+import {SvgIconTypeMap} from "@mui/material";
+import {OverridableComponent} from "@mui/material/OverridableComponent";
 
 export type TDoctor = {
-  id: string;
-  email: string;
-  name: string;
-  profilePhoto: string;
-  contactNumber: string;
-  address: string;
-  registrationNumber: string;
-  experience: number;
-  gender: "MALE" | "FEMALE";
-  apointmentFee: number;
-  qualification: string;
-  currentWorkingPlace: string;
-  designation: string;
-  isDeleted: false;
-  createdAt: string;
-  updatedAt: string;
-  averageRating: number;
-  review: [];
-  doctorSpecialties: [];
+    id: string;
+    email: string;
+    name: string;
+    profilePhoto: string;
+    contactNumber: string;
+    address: string;
+    registrationNumber: string;
+    experience: number;
+    gender: "MALE" | "FEMALE";
+    apointmentFee: number;
+    qualification: string;
+    currentWorkingPlace: string;
+    designation: string;
+    isDeleted: false;
+    createdAt: string;
+    updatedAt: string;
+    averageRating: number;
+    review: [];
+    doctorSpecialties: [];
 };
 
 export type TMeta = {
-  page: number;
-  limit: number;
-  total: number;
+    page: number;
+    limit: number;
+    total: number;
 };
 
 export type TUserRole = keyof typeof USER_ROLE;
 
 export interface DrawerItem {
-  title: string;
-  path: string;
-  parentPath?: string;
-  icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string };
-  child?: DrawerItem[];
+    title: string;
+    path: string;
+    parentPath?: string;
+    icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string };
+    child?: DrawerItem[];
 }
 
 export type TResponseSuccessType = {
-  data: any;
-  meta?: TMeta;
+    data: any;
+    meta?: TMeta;
 };
 
 export type TGenericErrorResponse = {
-  statusCode: number;
-  message: string;
-  errorMessages: TGenericErrorMessage[];
+    statusCode: number;
+    message: string;
+    errorMessages: TGenericErrorMessage[];
 };
 
 export type TGenericErrorMessage = {
-  path: string | number;
-  message: string;
+    path: string | number;
+    message: string;
 };
 
 export type TSchedule = {
-  id?: string;
-  startDate: string;
-  endDate: string;
+    id?: string;
+    startDate: string;
+    endDate: string;
+};
+
+export type TDoctorSchedule = {
+    id?: string;
+    startDate: string;
+    endDate: string;
+    appointmentId: string;
+    doctorId: string;
+    isBooked: boolean;
+    scheduleId: string;
+    schedule: TSchedule
 };
 
 export type TScheduleFrom = {
-  startDate: Date;
-  endDate: Date;
-  startTime: string;
-  endTime: string;
+    startDate: Date;
+    endDate: Date;
+    startTime: string;
+    endTime: string;
 };
