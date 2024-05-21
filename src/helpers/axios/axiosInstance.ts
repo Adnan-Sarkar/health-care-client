@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
     // @ts-ignore
     function (response) {
         const responseObj: TResponseSuccessType = {
-            data: response?.data?.data,
+            data: response?.data?.data || response?.data,
             meta: response?.data?.meta,
         };
 
@@ -45,7 +45,7 @@ axiosInstance.interceptors.response.use(
             config.headers["Authorization"] = accessToken;
             setToLocalStorage(authKey, accessToken);
             setAccessToken(accessToken);
-            
+
             return axiosInstance(config);
         } else {
             const responseObj: TGenericErrorResponse = {
