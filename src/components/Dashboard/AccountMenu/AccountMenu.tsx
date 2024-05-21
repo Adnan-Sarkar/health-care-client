@@ -9,9 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { useRouter } from "next/navigation";
-import {removeFromLocalStorage} from "@/utils/local-storage";
-import {authKey} from "@/constants/authKey";
+import {useRouter} from "next/navigation";
+import logoutUser from "@/services/actions/logoutUser";
 
 const menuStyles = {
     paper: {
@@ -54,13 +53,12 @@ const AccountMenu = () => {
     };
     const handleLogout = () => {
         setAnchorEl(null);
-        removeFromLocalStorage(authKey);
-        router.push("/login");
+        logoutUser(router);
     };
 
     return (
         <React.Fragment>
-            <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+            <Box sx={{display: "flex", alignItems: "center", textAlign: "center"}}>
                 <Tooltip
                     title="Account settings"
                     componentsProps={{
@@ -84,7 +82,7 @@ const AccountMenu = () => {
                             },
                         }}
                     >
-                        <KeyboardArrowDownIcon />
+                        <KeyboardArrowDownIcon/>
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -97,19 +95,19 @@ const AccountMenu = () => {
                 slotProps={{
                     ...menuStyles,
                 }}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                transformOrigin={{horizontal: "right", vertical: "top"}}
+                anchorOrigin={{horizontal: "right", vertical: "bottom"}}
             >
                 <MenuItem onClick={handleClose}>
-                    <Avatar sx={{ background: "transparent", color: "primary.main" }} />
+                    <Avatar sx={{background: "transparent", color: "primary.main"}}/>
                     Profile
                 </MenuItem>
 
-                <Divider />
+                <Divider/>
 
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
-                        <Logout fontSize="small" sx={{ color: "error.main" }} />
+                        <Logout fontSize="small" sx={{color: "error.main"}}/>
                     </ListItemIcon>
                     Logout
                 </MenuItem>
