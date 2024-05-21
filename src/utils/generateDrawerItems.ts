@@ -10,6 +10,7 @@ import PaidIcon from "@mui/icons-material/Paid";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import KeyIcon from '@mui/icons-material/Key';
 
 export const generateDrawerItems = (role: TUserRole): DrawerItem[] => {
     const roleMenus: DrawerItem[] = [];
@@ -19,6 +20,10 @@ export const generateDrawerItems = (role: TUserRole): DrawerItem[] => {
             title: "Profile",
             path: `${role}/profile`,
             icon: AccountBoxIcon,
+        }, {
+            title: "Change Password",
+            path: `change-password`,
+            icon: KeyIcon,
         },
     ]
 
