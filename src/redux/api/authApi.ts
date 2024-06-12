@@ -13,9 +13,20 @@ export const authApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: [tagTypes.user],
         }),
+
+        forgotPassword: builder.mutation({
+            query: (data) => ({
+                url: `auth/forgot-password`,
+                method: 'POST',
+                data: data,
+            }),
+            invalidatesTags: [tagTypes.user],
+        }),
+
     }),
 });
 
 export const {
     useChangePasswordMutation,
+    useForgotPasswordMutation
 } = authApi;
