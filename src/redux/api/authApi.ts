@@ -23,10 +23,20 @@ export const authApi = baseApi.injectEndpoints({
             invalidatesTags: [tagTypes.user],
         }),
 
+        resetPassword: builder.mutation({
+            query: (data) => ({
+                url: `auth/reset-password`,
+                method: 'POST',
+                data: data,
+            }),
+            invalidatesTags: [tagTypes.user],
+        }),
+
     }),
 });
 
 export const {
     useChangePasswordMutation,
-    useForgotPasswordMutation
+    useForgotPasswordMutation,
+    useResetPasswordMutation
 } = authApi;
